@@ -28,39 +28,37 @@ public class NewsServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         try {
-            // Fetch data from GNews API
             URL url = new URL(API_URL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
 
-            BufferedReader br = new BufferedReader(
+            BufferedReader reader = new BufferedReader(
                     new InputStreamReader(conn.getInputStream())
             );
 
-            StringBuilder jsonResponse = new StringBuilder();
+            StringBuilder jsonData = new StringBuilder();
             String line;
 
-            while ((line = br.readLine()) != null) {
-                jsonResponse.append(line);
+            while ((line = reader.readLine()) != null) {
+                jsonData.append(line);
             }
 
-            br.close();
+            reader.close();
 
-            JSONObject json = new JSONObject(jsonResponse.toString());
+            JSONObject json = new JSONObject(jsonData.toString());
             JSONArray articles = json.getJSONArray("articles");
 
-            // HTML output
             out.println("<html><body>");
-            out.println("<h1>Economic Times - Top News (Live)</h1>");
+            out.println("<h1>Economic Times - Top Headlines (Live)</h1>");
             out.println("<ul>");
 
             for (int i = 0; i < articles.length(); i++) {
                 JSONObject article = articles.getJSONObject(i);
 
                 String title = article.getString("title");
-                String urlLink = article.getString("url");
+                String link = article.getString("url");
 
-                out.println("<li><a href='" + urlLink + "' target='_blank'>" + title + "</a></li>");
+                out.println("<li><a href='" + link + "' target='_blank'>" + title + "</a></li>");
             }
 
             out.println("</ul>");

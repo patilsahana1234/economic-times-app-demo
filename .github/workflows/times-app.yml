@@ -32,8 +32,8 @@ jobs:
       - name: Upload Tomcat installation
         uses: actions/upload-artifact@v4
         with:
-          name: tomcat-installation
-          path: /opt/tomcat10
+          name: economic-times-app
+          path: target/*.war
 
   build:
     runs-on: ubuntu-latest

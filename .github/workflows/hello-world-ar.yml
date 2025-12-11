@@ -1,0 +1,64 @@
+name: hello-world-war-pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      cmd:
+        description: "A sample string parameter"
+        required: true
+        default: "default"
+
+      SAMPLE_BOOLEAN:
+        description: "A boolean parameter"
+        type: boolean
+        default: true
+
+      cmd1:
+        description: "Choose one option"
+        type: choice
+        options:
+          - install
+          - compile
+        default: install
+
+jobs:
+
+  checkout:
+    name: Checkout Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v4
+
+      - name: Clone other repo (hello-world-war_jenkins)
+        env:
+          SAHANA_USER: ${{ secrets.SAHANA_USER }}
+          SAHANA_PASS: ${{ secrets.SAHANA_PASS }}
+          SAHANA_SSH_KEY: ${{ secrets.SAHANA_SSH_KEY }}
+        run: |
+          rm -rf hello-world-war_jenkins
+          git clone https://github.com/patilsahana1234/hello-world-war_jenkins
+
+  build:
+    name: Maven Build Job
+    runs-on: ubuntu-latest
+    needs: checkout
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Maven
+        run: sudo apt-get install -y maven
+
+      - name: Build using Maven
+        run: mvn ${{ github.event.inputs.cmd }} ${{ github.event.inputs.cmd1 }}
+
+  deploy:
+    name: Deployment Job
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Copy WAR to Tomcat
+        run: |
+          sudo mkdir -p /opt/apache-tomcat-11.0.14/webapps/
+          sudo cp target/hello-world-war-1.0.0.war /opt/apache-tomcat-11.0.14/webapps/

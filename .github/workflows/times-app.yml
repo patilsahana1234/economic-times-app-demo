@@ -1,5 +1,5 @@
 name: Economic Time App CI
-on: 
+on:  
   push:
     branches: [ main ]
   pull_request:

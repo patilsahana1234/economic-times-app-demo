@@ -16,7 +16,6 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: 'maven'
-  
   build:
     runs-on: self-hosted
     needs: prerequisites

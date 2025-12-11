@@ -25,9 +25,9 @@ jobs:
 
     - name: Install Tomcat
       run: |
-        wget https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.50/bin/apache-tomcat-10.1.50.tar.gz
-        tar -xzf apache-tomcat-10.1.50.tar.gz
-        mv apache-tomcat-10.1.50 tomcat10
+        wget https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.50/bin/apache-tomcat-10.1.49.tar.gz
+        tar -xzf apache-tomcat-10.1.49.tar.gz
+        mv apache-tomcat-10.1.49 tomcat10
         chmod +x tomcat10/bin/*.sh
 
     - name: Deploy WAR to Tomcat

@@ -1,10 +1,9 @@
-name: Economic Times App CI
+name: hello-world-war CI
 
 on:
   push:
     branches: [ main ]
   pull_request:
-  
 
 jobs:
   build-and-run:
